@@ -149,6 +149,19 @@
             data[category][index].usedInBasic = !data[category][index].usedInBasic;
             saveData();
         }
+        
+        function updateSettings(e) {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+            settings.acquisitionYear = parseInt(formData.get('acquisitionYear'));
+            settings.acquisitionMonth = parseInt(formData.get('acquisitionMonth'));
+            saveSettings();
+            document.getElementById('settingsSuccess').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('settingsSuccess').classList.add('hidden');
+            }, 3000);
+        }
 
         function render() {
             const c = calc();
