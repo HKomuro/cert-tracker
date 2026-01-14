@@ -852,7 +852,37 @@ button:active {
             if (modalType === 'surgery') return `
                 <div class="form-group"><label class="form-label">手術日</label><input name="date" type="date" required class="form-input"></div>
                 <div class="form-group"><label class="form-label">役割</label><select name="role" required class="form-select"><option value="">選択</option><option value="術者">術者</option><option value="第1助手">第1助手</option><option value="第2助手">第2助手</option><option value="第3助手">第3助手</option></select></div>
-                <div class="form-group"><label class="form-label">分類</label><select name="group" required class="form-select"><option value="">選択</option><option value="A群">A群</option><option value="B群">B群</option></select></div>`;
+                <div class="form-group"><label class="form-label">分類</label><select name="group" required class="form-select"><option value="">選択</option><option value="A群">A群</option><option value="B群">B群</option></select></div>
+                <div class="surgery-reference">
+        <h4>【A群・B群の具体的記載】</h4>
+        <div style="margin-bottom:1rem;">
+            <strong>■A群（術者 最低必要症例数 ※印は胸腔鏡下手術を含んで良い）</strong><br>
+            1. 肺葉切除又は肺摘除術：32例※以上（最低25例は縦隔リンパ節郭清を伴うものとする）<br>
+            2. 縦隔腫瘍摘出術（重症筋無力症に対する胸腺摘除術も含むことができる）：3例※以上<br>
+            3. 自然気胸手術又は肺嚢胞切除術：5例※以上<br>
+            4. 肺部分切除術・腫瘍核出術：5例※以上
+        </div>
+        <div style="margin-bottom:1rem;">
+            <strong>■B群（術者 最低必要症例数）</strong><br>
+            B1～B6の中から5例※以上<br>
+            但し、B1～B5のものを2項目以上、全体で3例以上含む<br><br>
+            1. 気管・気管支形成術を伴う肺切除術<br>
+            2. 骨性胸郭、横隔膜、心嚢、大血管切除を伴う手術<br>
+            3. 胸膜肺摘除術<br>
+            4. 肺区域切除術<br>
+            5. 膿胸に対する手術（開窓術・胸郭成形術を含む）<br>
+            6. その他の呼吸器外科手術
+        </div>
+        <div class="surgery-note">
+            <strong>【注記】</strong><br>
+            (A1) 縦隔リンパ節郭清は「ND2a-1以上」とする<br>
+            (A2) 心膜良性腫瘍・胸壁（胸膜）良性腫瘍・食道良性摘出術を含む<br>
+            (B2) 隣接臓器合併切除を含む肺・胸壁・横隔膜・縦隔悪性腫瘍手術。合併する臓器として食道も含める。胸壁や横隔膜・縦隔悪性腫瘍の場合、合併する臓器として肺も含める。<br>
+            (B3) NCD2016年登録症例から拡大胸膜切除／肺剥皮術、胸膜切除／肺剥皮術が適応となります。<br><br>
+            ※ 1症例1術者とする（術者とは主要部分を執刀（担当）した者）<br>
+            ※ 1症例が2項目以上の手術に該当する場合であっても1症例を2例として計算しない
+        </div>
+    </div>`;
             if (modalType === 'conference') return `
                 <div class="form-group"><label class="form-label">学会名</label><input name="name" type="text" required class="form-input"></div>
                 <div class="form-group"><label class="form-label">参加日</label><input name="date" type="date" required class="form-input"></div>
