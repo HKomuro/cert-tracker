@@ -611,7 +611,87 @@ button:active {
                 document.getElementById('settingsSuccess').classList.add('hidden');
             }, 3000);
         }
-
+function exportAllDataCSV() {
+    const c = calc();
+    let csv = '';
+    
+    // サマリー
+    csv += '【基礎条件サマリー】\n';
+    csv += `項目,現在,必要\n`;
+    csv += `手術経験,${c.surgeriesForBasic},100\n`;
+    csv += `A群手術,${c.surgeryGroupA},45\n`;
+    csv += `B群手術,${c.surgeryGroupB},5\n`;
+    csv += `学会参加,${c.confMain},4\n`;
+    csv += `外科学会,${c.confSurgical},1\n`;
+    csv += `医療安全,${c.safetyCount},2\n`;
+    csv += `論文,${c.publicationsForBasic},2\n\n`;
+    
+    csv += '【単位条件サマリー】\n';
+    csv += `取得単位,${c.units},20\n\n`;
+    
+    // 手術経験
+    csv += '【手術経験】\n';
+    csv += '手術日,役割,分類,基礎条件\n';
+    data.surgeries.forEach(item => {
+        csv += `${item.date},${item.role},${item.group},${item.usedInBasic ? 'はい' : 'いいえ'}\n`;
+    });
+    csv += '\n';
+    
+    // 学会参加
+    csv += '【学会参加】\n';
+    csv += '学会名,参加日,区分,種類,基礎条件\n';
+    data.conferences.forEach(item => {
+        csv += `${item.name},${item.date},${item.confType},${item.type},${item.usedInBasic ? 'はい' : 'いいえ'}\n`;
+    });
+    csv += '\n';
+    
+    // 医療安全研修
+    csv += '【医療安全研修】\n';
+    csv += '研修名,受講日,主催者\n';
+    data.safetyTraining.forEach(item => {
+        csv += `${item.name},${item.date},${item.organizer}\n`;
+    });
+    csv += '\n';
+    
+    // 論文・著書
+    csv += '【論文・著書】\n';
+    csv += '論文タイトル,掲載誌,掲載年,役割,基礎条件\n';
+    data.publications.forEach(item => {
+        csv += `${item.title},${item.journal},${item.year},${item.role},${item.usedInBasic ? 'はい' : 'いいえ'}\n`;
+    });
+    csv += '\n';
+    
+    // 学会発表
+    csv += '【学会発表】\n';
+    csv += '演題名,学会名,発表日,役割,カウント方法\n';
+    data.presentations.forEach(item => {
+        csv += `${item.title},${item.conference},${item.date},${item.role},${item.useForUnits ? '単位' : '基礎'}\n`;
+    });
+    csv += '\n';
+    
+    // 座長
+    csv += '【座長】\n';
+    csv += '学会名,日付,セッション名\n';
+    data.chairmanships.forEach(item => {
+        csv += `${item.conference},${item.date},${item.session}\n`;
+    });
+    csv += '\n';
+    
+    // セミナー
+    csv += '【セミナー】\n';
+    csv += 'セミナー名,日付,役割,種別\n';
+    data.seminars.forEach(item => {
+        csv += `${item.name},${item.date},${item.role},${item.type}\n`;
+    });
+    
+    // BOMを追加してExcelで正しく開けるようにする
+    const bom = '\uFEFF';
+    const blob = new Blob([bom + csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `呼吸器外科専門医_全データ_${new Date().toISOString().slice(0,10)}.csv`;
+    link.click();
+}
         function render() {
             const c = calc();
             const root = document.getElementById('root');
@@ -654,6 +734,10 @@ button:active {
                             <div>座長: ${data.chairmanships.length} 単位</div>
                             <div>セミナー: ${data.seminars.reduce((s,i) => s + ((i.type==='地域' && i.role==='講師') ? 0.5 : 1), 0)} 単位</div>
                         </div>
+                    </div>
+                    <div class="card">
+                        <h2 class="font-bold text-blue mb-4">データ出力</h2>
+                        <button class="btn btn-primary" onclick="exportAllDataCSV()">全データをCSV出力</button>
                     </div>`;
             } else if (activeTab === 'settings') {
                 html += `
